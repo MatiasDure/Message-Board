@@ -4,6 +4,18 @@ block content
   h1= title
   p Welcome to #{title}
 
+  form(method="POST" action="")
+        label(for="author") Your name:
+        input#author(type="text", placeholder="Enter your name", name="author", required="true")
+        label(for="message") Your message:
+        input#message(type="textarea", placeholder="Enter your message", name="message", required="true")
+        button(type="submit") Submit
+
   ul 
     for message in messages 
-      li #{message.text} by #{message.user} posted on #{message.added}
+      li #{message.text} by #{message.author} posted on #{message.added}
+
+  if errors 
+    ul 
+      for error in errors 
+        li!= error.msg

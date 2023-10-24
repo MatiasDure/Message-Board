@@ -5,10 +5,24 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index').router;
-var usersRouter = require('./routes/users');
-const newMessageRouter = require("./routes/newMessage");
+// var usersRouter = require('./routes/users');
+// const newMessageRouter = require("./routes/newMessage");
 
 var app = express();
+
+const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
+
+const uri = process.env.MONGO_URI;
+
+async function main()
+{
+  await mongoose.connect(uri);
+}
+
+main().catch((error) => {
+  // debug(error);
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,8 +35,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use("/new", newMessageRouter);
-app.use('/users', usersRouter);
+// app.use("/new", newMessageRouter);
+// app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
